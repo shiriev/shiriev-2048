@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Block from './components/Block';
 import Map from './components/Map';
+import Direction from './utils/Direction'
 
 const BlockSize = 4;
 
-enum Direction {
-  Up,
-  Down,
-  Left,
-  Right,
-}
+
 
 const getRandomIntInclusive = (min: number, max: number): number => {
   min = Math.ceil(min);
