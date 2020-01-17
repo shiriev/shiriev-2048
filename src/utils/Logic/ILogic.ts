@@ -1,6 +1,6 @@
-import Cell from "./Cell";
-import Direction from "./Direction";
-import Action from "./Actions/Action";
+import Cell from "../Cell";
+import Direction from "../Direction";
+import Action from "../Actions/Action";
 
 interface ILogic {
     Move(direction : Direction) : Action[];

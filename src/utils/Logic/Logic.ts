@@ -1,8 +1,8 @@
-import Cell from "./Cell";
-import Action from "./Actions/Action";
+import Cell from "../Cell";
+import Action from "../Actions/Action";
 import ILogic from "./ILogic";
-import Direction from "./Direction";
-import IRandomize from "./IRandomize";
+import Direction from "../Direction";
+import IRandomize from "../Randomize/IRandomize";
 
 class Logic implements ILogic {
     Move(direction: Direction): Action[] {
@@ -25,7 +25,7 @@ class Logic implements ILogic {
     }
 
     constructor(mapSize : Number, randomize : IRandomize) {
-
+        
     }
 
     private Cells : Cell[] = [];
