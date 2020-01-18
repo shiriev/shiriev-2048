@@ -5,11 +5,11 @@ import Action from "../Actions/Action";
 interface ILogic {
     move(direction : Direction) : Action[];
     addCell() : Action[];
-    readonly mapSize : Number;
+    readonly mapSize : number;
     readonly matrix : Cell[][];
-    readonly score : Number;
-    readonly stepCount : Number;
-    readonly maxValue : Number;
+    readonly score : number;
+    readonly stepCount : number;
+    readonly maxValue : number;
 }
 
 export default ILogic;

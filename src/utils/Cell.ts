@@ -1,10 +1,10 @@
 import Point from "./Point";
 
 class Cell {
-    value : Number;
+    value : number;
     position : Point;
 
-    constructor(value : Number, position : Point) {
+    constructor(value : number, position : Point) {
         this.value = value;
         this.position = position;
     }

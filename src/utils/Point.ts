@@ -1,9 +1,9 @@
 
 class Point {
-    x : Number = 0;
-    y : Number = 0;
+    x : number = 0;
+    y : number = 0;
 
-    constructor(x : Number, y : Number) {
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
