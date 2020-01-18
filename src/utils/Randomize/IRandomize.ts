@@ -1,6 +1,8 @@
+import Point from "../Point";
 
 interface IRandomize {
-    getRandomIntInclusive(min: number, max: number): number;
+    getRandomPosition(mapSize: number): Point;
+    getRandomCellValue(): number;
 }
 
 export default IRandomize;

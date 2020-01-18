@@ -3,6 +3,7 @@ import Action from "../Actions/Action";
 import ILogic from "./ILogic";
 import Direction from "../Direction";
 import IRandomize from "../Randomize/IRandomize";
+import AddCellAction from "../Actions/AddCellAction";
 
 class Logic implements ILogic {
     readonly mapSize : number;
@@ -11,7 +12,17 @@ class Logic implements ILogic {
         throw new Error("Method not implemented.");
     }
     addCell(): Action[] {
-        throw new Error("Method not implemented.");
+        while(true) {
+            const position = this._randomize.getRandomPosition(this.mapSize);
+            if (!this._cells.some(c => c.position.equals(position))) {
+                const value = this._randomize.getRandomCellValue();
+                const newCell = new Cell(value, position);
+                this._cells.push(newCell);
+                const action = new AddCellAction(newCell);
+                this._actions.push(action);
+                return [action];
+            }
+        };
     }
 
     get matrix(): Cell[][] {
@@ -34,14 +45,17 @@ class Logic implements ILogic {
     }
 
     constructor(mapSize: number, randomize: IRandomize) {
-        if (mapSize < 2) throw new RangeError("mapSize should be lower than 2");
+        if (mapSize < 2) throw new RangeError("mapSize shouldn`t be lower than 2");
+        if (!randomize) throw new TypeError("randomize shouldn`t be null");
         this.mapSize = mapSize;
+        this._randomize = randomize;
     }
 
     private _cells : Cell[] = [];
     private _actions : Action[] = [];
     private _score : number = 0;
     private _stepCount : number = 0;
+    private readonly _randomize : IRandomize;
 }
 
 export default Logic;

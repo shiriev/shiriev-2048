@@ -7,6 +7,10 @@ class Point {
         this.x = x;
         this.y = y;
     }
+
+    equals(p: Point): boolean {
+        return p.x === this.x && p.y === this.y;
+    }
 }
 
 export default Point;
