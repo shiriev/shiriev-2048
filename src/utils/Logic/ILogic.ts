@@ -3,12 +3,13 @@ import Direction from "../Direction";
 import Action from "../Actions/Action";
 
 interface ILogic {
-    Move(direction : Direction) : Action[];
-    AddCell() : Action[];
-    GetMatrix() : Cell[][];
-    GetScore() : Number;
-    GetStepCount() : Number;
-    GetMaxValue() : Number;
+    move(direction : Direction) : Action[];
+    addCell() : Action[];
+    readonly mapSize : Number;
+    readonly matrix : Cell[][];
+    readonly score : Number;
+    readonly stepCount : Number;
+    readonly maxValue : Number;
 }
 
 export default ILogic;

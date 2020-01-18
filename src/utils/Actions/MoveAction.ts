@@ -2,11 +2,11 @@ import Action from "./Action";
 import Direction from "../Direction";
 
 class MoveAction extends Action {
-    Direction : Direction;
+    direction : Direction;
 
     constructor(direction : Direction) {
         super();
-        this.Direction = direction;
+        this.direction = direction;
     }
 }
 

@@ -5,31 +5,34 @@ import Direction from "../Direction";
 import IRandomize from "../Randomize/IRandomize";
 
 class Logic implements ILogic {
-    Move(direction: Direction): Action[] {
+    readonly mapSize : Number;
+
+    move(direction: Direction): Action[] {
         throw new Error("Method not implemented.");
     }
-    AddCell(): Action[] {
+    addCell(): Action[] {
         throw new Error("Method not implemented.");
     }
-    GetMatrix(): Cell[][] {
+
+    get matrix(): Cell[][] {
         throw new Error("Method not implemented.");
     }
-    GetScore(): Number {
+    get score(): Number {
         throw new Error("Method not implemented.");
     }
-    GetStepCount(): Number {
+    get stepCount(): Number {
         throw new Error("Method not implemented.");
     }
-    GetMaxValue(): Number {
+    get maxValue(): Number {
         throw new Error("Method not implemented.");
     }
 
     constructor(mapSize : Number, randomize : IRandomize) {
-        
+        this.mapSize = mapSize;
     }
 
-    private Cells : Cell[] = [];
-    private Actions : Action[] = [];
+    private _cells : Cell[] = [];
+    private _actions : Action[] = [];
 }
 
 export default Logic;

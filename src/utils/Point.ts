@@ -1,11 +1,11 @@
 
 class Point {
-    X : Number = 0;
-    Y : Number = 0;
+    x : Number = 0;
+    y : Number = 0;
 
     constructor(x : Number, y : Number) {
-        this.X = x;
-        this.Y = y;
+        this.x = x;
+        this.y = y;
     }
 }
 
