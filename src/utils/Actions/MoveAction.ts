@@ -1,12 +1,20 @@
 import Action from "./Action";
-import Direction from "../Direction";
+import Point from "../Point";
 
 class MoveAction extends Action {
-    direction : Direction;
+    value: number;
+    oldPosition: Point;
+    newPosition: Point;
 
-    constructor(direction : Direction) {
+    constructor(value: number, oldPosition: Point, newPosition: Point) {
         super();
-        this.direction = direction;
+        this.value = value;
+        this.oldPosition = oldPosition;
+        this.newPosition = newPosition;
+    }
+
+    clone(): MoveAction {
+        return new MoveAction(this.value, this.oldPosition.clone(), this.newPosition.clone());
     }
 }
 

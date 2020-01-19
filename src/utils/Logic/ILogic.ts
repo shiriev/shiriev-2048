@@ -9,7 +9,7 @@ interface ILogic {
     loadLogic(logicState: LogicState): void;
     saveLogic(): LogicState;
     readonly mapSize: number;
-    readonly matrix: Cell[][];
+    readonly matrix: number[][];
     readonly score: number;
     readonly stepCount: number;
     readonly maxValue: number;

@@ -8,6 +8,10 @@ class Cell {
         this.value = value;
         this.position = position;
     }
+    
+    clone(): Cell {
+        return new Cell(this.value, this.position.clone());
+    }
 }
 
 export default Cell;

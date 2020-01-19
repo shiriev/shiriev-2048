@@ -8,6 +8,10 @@ class AddCellAction extends Action {
         super();
         this.cell = cell;
     }
+
+    clone(): AddCellAction {
+        return new AddCellAction(this.cell.clone());
+    }
 }
 
 export default AddCellAction;
