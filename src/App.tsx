@@ -9,10 +9,11 @@ import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
 const BlockSize = 4;
 
 function App() {
-    const logic = useRef(new Logic(BlockSize, new LogicRandomize()));
-    const [map, setMap] = useState(logic.current.matrix);
+    const logicRef = useRef(new Logic(BlockSize, new LogicRandomize()));
+    const [map, setMap] = useState(logicRef.current.matrix);
 
     useEffect(() => {
+        const logic = logicRef.current;
         const onKeyDown = (e: KeyboardEvent) => {
             let direction;
             switch (e.key){
@@ -23,21 +24,21 @@ function App() {
                 default: return;
             }
 
-            const actions = logic.current.move(direction);
+            const actions = logic.move(direction);
             console.log(actions);
-            console.log(logic.current.score);
-            setMap(logic.current.matrix);
+            console.log(logic.score);
+            setMap(logic.matrix);
         };
-        logic.current.addCell();
-        logic.current.addCell();
-        setMap(logic.current.matrix);
+        logic.addCell();
+        logic.addCell();
+        setMap(logic.matrix);
         document.addEventListener("keydown", onKeyDown, false);
         return () => document.removeEventListener("keydown", onKeyDown, false); 
     }, []);
 
     return (
-        <div className="App">
-            <Map matrix={map.map(row => row.map(cell => <Block value={cell}/>))}/>
+        <div className="app">
+            <Map>{map.map(row => row.map(cell => <Block value={cell}/>))}</Map>
         </div>
     );
 }

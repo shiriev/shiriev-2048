@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, {ReactNode} from 'react';
 
 export interface MapProps {
-    matrix: Array<Array<JSX.Element>>;
+    children: Array<Array<ReactNode>>;
 };
 
 function Map(props: MapProps){
-    const { matrix } = props; 
+    const matrix = props.children; 
 
     return <table>
         <tbody>
