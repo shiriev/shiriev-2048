@@ -1,7 +1,7 @@
 import {} from '@testing-library/react';
 import { mock } from 'jest-mock-extended'
 import each from 'jest-each'
-import IRandomize from '../Randomize/IRandomize';
+import ILogicRandomize from '../LogicRandomize/ILogicRandomize';
 import Logic from './Logic';
 import LogicState from './LogicState';
 import Direction from '../Direction';
@@ -16,7 +16,7 @@ import LoseAction from '../Actions/LoseAction';
 test('Initial Logic returns empty values and empty state', () => {
     const mapSize = 4;
     const expectedMatrix = Array(mapSize).fill([]).map(() => Array(mapSize).fill(0));
-    const logic = new Logic(4, mock<IRandomize>());
+    const logic = new Logic(mapSize, mock<ILogicRandomize>());
 
     expect(logic.maxValue).toEqual(0);
     expect(logic.score).toEqual(0);
@@ -24,7 +24,7 @@ test('Initial Logic returns empty values and empty state', () => {
     expect(logic.matrix).toEqual(expectedMatrix);
 
     const logicState = logic.saveLogic();
-    expect(logicState.mapSize).toEqual(4);
+    expect(logicState.mapSize).toEqual(mapSize);
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
     expect(logicState.cells).toEqual([]);
@@ -34,14 +34,14 @@ test('Initial Logic returns empty values and empty state', () => {
 each([[-5], [0], [1], [null]])
 .test('Logic`s constructor throws error when mapSize < 2 or null (mapSize = %s)', (mapSize) => {
     const act = () => {  
-        const logic = new Logic(mapSize, mock<IRandomize>());
+        const logic = new Logic(mapSize, mock<ILogicRandomize>());
     }
     expect(act).toThrow(RangeError);
 });
 
 test('addValue adds cells on random position', () => {
     const mapSize = 3;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
         .mockReturnValueOnce(new Point(0, 0))
         .mockReturnValueOnce(new Point(1, 2))
@@ -79,7 +79,7 @@ test('addValue adds cells on random position', () => {
 
 test('loadLogic set state of logic', () => {
     const mapSize = 3;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
 
     const expectedMatrix = [
         [2, 0, 4],
@@ -109,7 +109,7 @@ test('loadLogic set state of logic', () => {
 
 test('move moves cells to left, add value and make actions', () => {
     const mapSize = 4;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
         .mockReturnValueOnce(new Point(1, 2));
         
@@ -154,7 +154,7 @@ test('move moves cells to left, add value and make actions', () => {
 
 test('move should do nothing if has no way for this direction', () => {
     const mapSize = 4;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
 
     const matrix = [
         [2, 4, 2, 4],
@@ -219,7 +219,7 @@ each([
         expectedMatrix: number[][]
     ) => {
     const mapSize = matrix.length;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
         .mockReturnValueOnce(newCell.position.clone());
         
@@ -242,7 +242,7 @@ each([
 
 test('move shouldn`t return LoseAction if has some ways but doesn`t have free space', () => {
     const mapSize = 4;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
         .mockReturnValueOnce(new Point(3, 2));
     randomize.getRandomCellValue.calledWith()
@@ -285,7 +285,7 @@ test('move shouldn`t return LoseAction if has some ways but doesn`t have free sp
 
 test('move should return LoseAction if has no way', () => {
     const mapSize = 4;
-    const randomize = mock<IRandomize>();
+    const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
         .mockReturnValueOnce(new Point(3, 2));
     randomize.getRandomCellValue.calledWith()
@@ -329,13 +329,7 @@ test('move should return LoseAction if has no way', () => {
 
 test('saveLogic should make new object', () => {
     const mapSize = 3;
-    const randomize = mock<IRandomize>();
-
-    const expectedMatrix = [
-        [2, 0, 4],
-        [8, 0, 0],
-        [0, 2, 0],
-    ];
+    const randomize = mock<ILogicRandomize>();
 
     const logic = new Logic(mapSize, randomize);
     const logicState = new LogicState();

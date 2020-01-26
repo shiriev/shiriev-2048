@@ -1,11 +1,11 @@
-import IRandomize from "./IRandomize";
+import ILogicRandomize from "./ILogicRandomize";
 import Point from "../Point";
 
-class Randomize implements IRandomize {
-    getRandomPosition(mapSize: number): import("../Point").default {
+class LogicRandomize implements ILogicRandomize {
+    getRandomPosition(matrixSize: number): Point {
         return new Point(
-            this.getRandomIntInclusive(0, mapSize - 1),
-            this.getRandomIntInclusive(0, mapSize - 1)
+            this.getRandomIntInclusive(0, matrixSize - 1),
+            this.getRandomIntInclusive(0, matrixSize - 1)
         );
     }
     getRandomCellValue(): number {
@@ -19,4 +19,4 @@ class Randomize implements IRandomize {
     }
 }
 
-export default Randomize;
+export default LogicRandomize;

@@ -4,12 +4,12 @@ import Block from './components/Block';
 import Map from './components/Map';
 import Direction from './utils/Direction'
 import Logic from './utils/Logic/Logic';
-import Randomize from './utils/Randomize/Randomize';
+import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
 
 const BlockSize = 4;
 
 function App() {
-  const logic = useRef(new Logic(BlockSize, new Randomize()));
+  const logic = useRef(new Logic(BlockSize, new LogicRandomize()));
   const [map, setMap] = useState(logic.current.matrix);
 
   useEffect(() => {

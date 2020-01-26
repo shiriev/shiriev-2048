@@ -1,8 +1,8 @@
 import Point from "../Point";
 
-interface IRandomize {
+interface ILogicRandomize {
     getRandomPosition(mapSize: number): Point;
     getRandomCellValue(): number;
 }
 
-export default IRandomize;
+export default ILogicRandomize;

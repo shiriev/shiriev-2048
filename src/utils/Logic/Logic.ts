@@ -1,12 +1,12 @@
-import Cell from "../Cell";
-import Action from "../Actions/Action";
 import ILogic from "./ILogic";
+import ILogicRandomize from "../LogicRandomize/ILogicRandomize";
 import Direction from "../Direction";
-import IRandomize from "../Randomize/IRandomize";
-import AddCellAction from "../Actions/AddCellAction";
-import LogicState from "./LogicState";
-import MoveAction from "../Actions/MoveAction";
 import Point from "../Point";
+import Cell from "../Cell";
+import LogicState from "./LogicState";
+import Action from "../Actions/Action";
+import AddCellAction from "../Actions/AddCellAction";
+import MoveAction from "../Actions/MoveAction";
 import MergeAction from "../Actions/MergeAction";
 import LoseAction from "../Actions/LoseAction";
 
@@ -178,7 +178,7 @@ class Logic implements ILogic {
     }
 
 
-    constructor(mapSize: number, randomize: IRandomize) {
+    constructor(mapSize: number, randomize: ILogicRandomize) {
         if (mapSize < 2) throw new RangeError("mapSize shouldn`t be lower than 2");
         if (!randomize) throw new TypeError("randomize shouldn`t be null");
         this._mapSize = mapSize;
@@ -191,7 +191,7 @@ class Logic implements ILogic {
     private _score: number = 0;
     private _stepCount: number = 0;
     private _mapSize: number;
-    private readonly _randomize: IRandomize;
+    private readonly _randomize: ILogicRandomize;
 }
 
 export default Logic;
