@@ -1,5 +1,6 @@
+import ICloneable from "./ICloneable";
 
-class Point {
+class Point implements ICloneable {
     x: number = 0;
     y: number = 0;
 
