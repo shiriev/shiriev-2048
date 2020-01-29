@@ -177,6 +177,10 @@ class Logic implements ILogic {
         return this._mapSize;
     }
 
+    get isEnd(): boolean {
+        return !this.canDoMove();
+    }
+
 
     constructor(mapSize: number, randomize: ILogicRandomize) {
         if (mapSize < 2) throw new RangeError("mapSize shouldn`t be lower than 2");

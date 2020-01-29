@@ -13,6 +13,7 @@ interface ILogic {
     readonly score: number;
     readonly stepCount: number;
     readonly maxValue: number;
+    readonly isEnd: boolean;
 }
 
 export default ILogic;
