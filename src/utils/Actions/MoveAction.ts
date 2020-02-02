@@ -1,5 +1,5 @@
-import Action from "./Action";
-import Point from "../Point";
+import Action from './Action';
+import Point from '../Point';
 
 class MoveAction extends Action {
     value: number;

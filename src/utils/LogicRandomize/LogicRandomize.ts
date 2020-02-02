@@ -1,5 +1,5 @@
-import ILogicRandomize from "./ILogicRandomize";
-import Point from "../Point";
+import ILogicRandomize from './ILogicRandomize';
+import Point from '../Point';
 
 class LogicRandomize implements ILogicRandomize {
     getRandomPosition(matrixSize: number): Point {

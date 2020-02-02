@@ -1,5 +1,5 @@
-import Point from "./Point";
-import ICloneable from "./ICloneable";
+import Point from './Point';
+import ICloneable from './ICloneable';
 
 class Cell implements ICloneable {
     value : number;

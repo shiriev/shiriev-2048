@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import "./Map.css";
+import './Map.css';
 import Action from '../utils/Actions/Action';
 import Block from './Block';
 import Cell from '../utils/Cell';
@@ -59,7 +59,7 @@ function Map(props: MapProps){
         setCells(cellsRef.current);
     }, [currentActions]);
 
-    return <div className="map">
+    return <div className='map' style={{width: 100*props.mapSize, height: 100*props.mapSize}}>
         {cells.map(cellWithId => <Block key={cellWithId.id} cell={cellWithId.cell}/>)}
     </div>;
 };

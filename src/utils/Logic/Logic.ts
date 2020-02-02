@@ -1,14 +1,14 @@
-import ILogic from "./ILogic";
-import ILogicRandomize from "../LogicRandomize/ILogicRandomize";
-import Direction from "../Direction";
-import Point from "../Point";
-import Cell from "../Cell";
-import LogicState from "./LogicState";
-import Action from "../Actions/Action";
-import AddCellAction from "../Actions/AddCellAction";
-import MoveAction from "../Actions/MoveAction";
-import MergeAction from "../Actions/MergeAction";
-import LoseAction from "../Actions/LoseAction";
+import ILogic from './ILogic';
+import ILogicRandomize from '../LogicRandomize/ILogicRandomize';
+import Direction from '../Direction';
+import Point from '../Point';
+import Cell from '../Cell';
+import LogicState from './LogicState';
+import Action from '../Actions/Action';
+import AddCellAction from '../Actions/AddCellAction';
+import MoveAction from '../Actions/MoveAction';
+import MergeAction from '../Actions/MergeAction';
+import LoseAction from '../Actions/LoseAction';
 
 class Logic implements ILogic {
 
@@ -183,8 +183,8 @@ class Logic implements ILogic {
 
 
     constructor(mapSize: number, randomize: ILogicRandomize) {
-        if (mapSize < 2) throw new RangeError("mapSize shouldn`t be lower than 2");
-        if (!randomize) throw new TypeError("randomize shouldn`t be null");
+        if (mapSize < 2) throw new RangeError('mapSize shouldn`t be lower than 2');
+        if (!randomize) throw new TypeError('randomize shouldn`t be null');
         this._mapSize = mapSize;
         this._randomize = randomize;
     }
