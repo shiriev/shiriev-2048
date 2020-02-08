@@ -1,7 +1,22 @@
 .counter {
-    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    background-color: burlywood;
 }
 
-.counter__text {
+.counter__title {
+    font-size: 18px;
+    background-color: brown;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+}
 
+.counter__value {
+    font-size: 24px;
 }

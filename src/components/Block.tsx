@@ -6,13 +6,12 @@ export interface BlockProps {
     cell: Cell;
 };
 
-
 function Block(props: BlockProps) {
     const { value, position } = props.cell;
     const style = {
-        marginLeft: position.x * 100,
-        marginTop: position.y * 100,
-    };
+        "--position-x" : position.x,
+        "--position-y" : position.y
+    } as React.CSSProperties;
     return <div style={style} className={`block block_value_${value}`}>
         <span className={`block__text block__text_digits-count_${value.toString().length}`}>
             {value || null}

@@ -59,7 +59,7 @@ function Map(props: MapProps){
         setCells(cellsRef.current);
     }, [currentActions]);
 
-    return <div className='map' style={{width: 100*props.mapSize, height: 100*props.mapSize}}>
+    return <div className='map' style={{'--map-size' : props.mapSize} as React.CSSProperties}>
         {cells.map(cellWithId => <Block key={cellWithId.id} cell={cellWithId.cell}/>)}
     </div>;
 };

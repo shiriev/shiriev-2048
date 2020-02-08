@@ -31,13 +31,23 @@ function App() {
         const actions = logic.move(direction);
         setCurrentActions(actions);
     });
+
+    const logic = logicRef.current;
     
     return (
         <div className='app'>
-            <Map mapSize={logicRef.current.mapSize} currentActions={currentActions}/>
-            <Counter title={'Очки'} value={logicRef.current.score}/>
-            <Counter title={'Количество ходов'} value={logicRef.current.stepCount}/>
-            <Counter title={'Конец игры'} value={logicRef.current.isEnd ? 1 : 0}/>
+            <div className='app__map'>
+                <Map mapSize={logic.mapSize} currentActions={currentActions}/>
+            </div>
+            <div className='app__title'>
+                <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
+            </div>
+            <div className='app__score'>
+                <Counter title={'очки'} value={logic.score}/>
+            </div>
+            <div className='app__step-count'>
+                <Counter title={'ходы'} value={logic.stepCount}/>
+            </div>
         </div>
     );
 }

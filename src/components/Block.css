@@ -8,6 +8,8 @@
     transition: margin 0.25s;
     animation: show 0.5s 1;
     animation-fill-mode: forwards;
+    margin-left: calc(var(--block-size) * var(--position-x));
+    margin-top: calc(var(--block-size) * var(--position-y));
 }
 
 @keyframes show{

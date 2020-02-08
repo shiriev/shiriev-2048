@@ -6,16 +6,15 @@ export interface CounterProps {
     value: Number;
 };
 
-
 function Counter(props: CounterProps) {
     const { title, value } = props;
     return <div className={'counter'}>
-        <span className={'counter__title'}>
+        <div className={'counter__title'}>
             {title}
-        </span>
-        <span className={'counter__value'}>
+        </div>
+        <div className={'counter__value'}>
             {value}
-        </span>
+        </div>
     </div>;
 };
 
