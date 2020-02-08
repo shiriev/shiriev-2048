@@ -1,5 +1,5 @@
-import Action from "./Action";
-import Cell from "../Cell";
+import Action from './Action';
+import Cell from '../Cell';
 
 class MergeAction extends Action {
     firstCell: Cell;

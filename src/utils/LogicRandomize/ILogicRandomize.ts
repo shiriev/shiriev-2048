@@ -1,4 +1,4 @@
-import Point from "../Point";
+import Point from '../Point';
 
 interface ILogicRandomize {
     getRandomPosition(mapSize: number): Point;

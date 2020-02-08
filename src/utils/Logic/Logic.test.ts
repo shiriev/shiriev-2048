@@ -21,6 +21,7 @@ test('Initial Logic returns empty values and empty state', () => {
     expect(logic.maxValue).toEqual(0);
     expect(logic.score).toEqual(0);
     expect(logic.stepCount).toEqual(0);
+    expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
 
     const logicState = logic.saveLogic();
@@ -104,6 +105,7 @@ test('loadLogic set state of logic', () => {
     expect(logic.maxValue).toEqual(8);
     expect(logic.score).toEqual(34);
     expect(logic.stepCount).toEqual(6);
+    expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
@@ -149,6 +151,7 @@ test('move moves cells to left, add value and make actions', () => {
     expect(actions).toEqual(expectedActions);
     expect(logic.saveLogic().actions).toEqual(expectedActions);
     expect(logic.stepCount).toEqual(8);
+    expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
@@ -177,6 +180,7 @@ test('move should do nothing if has no way for this direction', () => {
     expect(logic.score).toEqual(10);
     expect(actions).toEqual([]);
     expect(logic.stepCount).toEqual(7);
+    expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(matrix);
 });
 
@@ -324,6 +328,7 @@ test('move should return LoseAction if has no way', () => {
     expect(logic.score).toEqual(10);
     expect(actions).toEqual(expectedActions);
     expect(logic.stepCount).toEqual(8);
+    expect(logic.isEnd).toEqual(true);
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 

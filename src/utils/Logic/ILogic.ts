@@ -1,7 +1,6 @@
-import Cell from "../Cell";
-import Direction from "../Direction";
-import Action from "../Actions/Action";
-import LogicState from "./LogicState";
+import Direction from '../Direction';
+import Action from '../Actions/Action';
+import LogicState from './LogicState';
 
 interface ILogic {
     move(direction: Direction): Action[];
@@ -13,6 +12,7 @@ interface ILogic {
     readonly score: number;
     readonly stepCount: number;
     readonly maxValue: number;
+    readonly isEnd: boolean;
 }
 
 export default ILogic;

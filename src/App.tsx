@@ -1,45 +1,55 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
-import Block from './components/Block';
 import Map from './components/Map';
+import Counter from './components/Counter';
 import Direction from './utils/Direction'
 import Logic from './utils/Logic/Logic';
 import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
+import Action from './utils/Actions/Action';
+import { useKeyboardArrows } from './utils/hooks';
 
-const BlockSize = 4;
+/*todo create config file*/
+const MapSize = 4;
+const InitialDigitsCount = 2;
 
 function App() {
-  const logic = useRef(new Logic(BlockSize, new LogicRandomize()));
-  const [map, setMap] = useState(logic.current.matrix);
+    const logicRef = useRef(new Logic(MapSize, new LogicRandomize()));
+    const [currentActions, setCurrentActions] = useState<Action[]>([]);
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      let direction;
-      switch (e.key){
-        case "ArrowUp": direction = Direction.Up; break;
-        case "ArrowDown": direction = Direction.Down; break;
-        case "ArrowLeft": direction = Direction.Left; break;
-        case "ArrowRight": direction = Direction.Right; break;
-        default: return;
-      }
+    useEffect(() => {
+        const logic = logicRef.current;
+        const actions: Action[] = [];
+        for (let i = 0; i < InitialDigitsCount; i++) {
+            const action = logic.addCell();
+            actions.push(...action);
+        }
+        setCurrentActions(actions);
+    }, []);
 
-      const actions = logic.current.move(direction);
-      console.log(actions);
-      console.log(logic.current.score);
-      setMap(logic.current.matrix);
-    };
-    logic.current.addCell();
-    logic.current.addCell();
-    setMap(logic.current.matrix);
-    document.addEventListener("keydown", onKeyDown, false);
-    return () => document.removeEventListener("keydown", onKeyDown, false); 
-  }, []);
+    useKeyboardArrows((direction: Direction) => {
+        const logic = logicRef.current;
+        const actions = logic.move(direction);
+        setCurrentActions(actions);
+    });
 
-  return (
-    <div className="App">
-      <Map matrix={map.map(row => row.map(cell => <Block value={cell}/>))}/>
-    </div>
-  );
+    const logic = logicRef.current;
+    
+    return (
+        <div className='app'>
+            <div className='app__map'>
+                <Map mapSize={logic.mapSize} currentActions={currentActions}/>
+            </div>
+            <div className='app__title'>
+                <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
+            </div>
+            <div className='app__score'>
+                <Counter title={'очки'} value={logic.score}/>
+            </div>
+            <div className='app__step-count'>
+                <Counter title={'ходы'} value={logic.stepCount}/>
+            </div>
+        </div>
+    );
 }
 
 export default App;

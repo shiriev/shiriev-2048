@@ -1,0 +1,8 @@
+.map {
+    background: silver;
+    border: 2px solid gray;
+    --block-size: 100px;
+    width: calc(var(--block-size) * var(--map-size));
+    height: calc(var(--block-size) * var(--map-size));
+
+}
