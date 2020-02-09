@@ -1,43 +1,50 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './App.css';
 import Map from './components/Map';
 import Counter from './components/Counter';
+import Modal from './components/Modal';
+import Button from './components/Button';
 import Direction from './utils/Direction'
 import Logic from './utils/Logic/Logic';
 import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
 import Action from './utils/Actions/Action';
-import { useKeyboardArrows } from './utils/hooks';
+import { useKeyboardArrows, useRefresh } from './utils/hooks';
 
 /*todo create config file*/
 const MapSize = 4;
 const InitialDigitsCount = 2;
 
 function App() {
-    const logicRef = useRef(new Logic(MapSize, new LogicRandomize()));
+    const [logic, setLogic] = useState<Logic | null>(null);
+    const [isRefresh, refresh] = useRefresh();
     const [currentActions, setCurrentActions] = useState<Action[]>([]);
 
-    useEffect(() => {
-        const logic = logicRef.current;
+    const restart = useCallback(() => {
+        const newLogic = new Logic(MapSize, new LogicRandomize());
         const actions: Action[] = [];
         for (let i = 0; i < InitialDigitsCount; i++) {
-            const action = logic.addCell();
+            const action = newLogic.addCell();
             actions.push(...action);
         }
+        setLogic(newLogic);
         setCurrentActions(actions);
-    }, []);
+        refresh();
+    }, [refresh]);
+
+    useEffect(() => {
+        restart();
+    }, [restart]);
 
     useKeyboardArrows((direction: Direction) => {
-        const logic = logicRef.current;
+        if (logic === null) return;
         const actions = logic.move(direction);
         setCurrentActions(actions);
     });
-
-    const logic = logicRef.current;
     
-    return (
+    return (logic &&
         <div className='app'>
             <div className='app__map'>
-                <Map mapSize={logic.mapSize} currentActions={currentActions}/>
+                {isRefresh && <Map mapSize={logic.mapSize} currentActions={currentActions}/>}
             </div>
             <div className='app__title'>
                 <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
@@ -48,6 +55,13 @@ function App() {
             <div className='app__step-count'>
                 <Counter title={'ходы'} value={logic.stepCount}/>
             </div>
+            {
+                logic.isEnd && 
+                <Modal title='Игра окончена'>
+                        <p>Хотите сыграть ещё?</p>
+                        <Button title='рестарт' onClick={restart}/>
+                </Modal>
+            }
         </div>
     );
 }
