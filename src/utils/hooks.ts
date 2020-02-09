@@ -1,5 +1,5 @@
 import Direction from './Direction';
-import { useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export function useKeyboardArrows(callback: (direction: Direction) => void): void {
     useEffect(() => {
@@ -17,4 +17,16 @@ export function useKeyboardArrows(callback: (direction: Direction) => void): voi
         document.addEventListener('keydown', onKeyDown, false);
         return () => document.removeEventListener('keydown', onKeyDown, false); 
     }, [callback]);
+}
+
+export function useRefresh(): [boolean, () => void] {
+    const [isRefresh, setIsRefresh] = useState(true);
+    useEffect(() => {
+        if (!isRefresh) setIsRefresh(true);
+    }, [isRefresh, setIsRefresh]);
+    const refresh = useCallback(() => {
+        setIsRefresh(false);
+    }, [setIsRefresh]);
+
+    return [isRefresh, refresh];
 }
