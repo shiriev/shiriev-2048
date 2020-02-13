@@ -2,8 +2,8 @@ import React from 'react';
 import './Counter.css';
 
 export interface CounterProps {
-    title: String;
-    value: Number;
+    title: string;
+    value: number;
 };
 
 function Counter(props: CounterProps) {

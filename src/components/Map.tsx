@@ -1,10 +1,10 @@
 import React, {useRef, useState, useEffect} from 'react';
 import './Map.css';
-import {Action, AddCellAction, MoveAction, MergeAction} from '../utils/Actions';
+import {Action, AddCellAction, MoveAction, MergeAction} from '../models/Actions';
 import Block from './Block';
-import Cell from '../utils/Cell';
-import ICloneable from '../utils/ICloneable';
-import Point from '../utils/Point';
+import Cell from '../models/Cell';
+import ICloneable from '../models/ICloneable';
+import Point from '../models/Point';
 
 export interface MapProps {
     currentActions: Action[];
@@ -56,7 +56,7 @@ function Map(props: MapProps){
         setCells(cellsRef.current);
     }, [currentActions]);
 
-    return <div className='map' style={{'--map-size' : props.mapSize} as React.CSSProperties}>
+    return <div className='map' style={{'--map-size': props.mapSize} as React.CSSProperties}>
         {cells.map(cellWithId => <Block key={cellWithId.id} cell={cellWithId.cell}/>)}
     </div>;
 };

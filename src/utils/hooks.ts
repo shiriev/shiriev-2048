@@ -1,4 +1,4 @@
-import Direction from './Direction';
+import Direction from '../models/Direction';
 import { useState, useEffect, useCallback } from 'react';
 
 export function useKeyboardArrows(callback: (direction: Direction) => void): void {

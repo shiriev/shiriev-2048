@@ -53,23 +53,23 @@ class Logic implements ILogic {
         switch(yDirection) {
             case Direction.Left:
                 return {
-                    from : p => p,
-                    to : p => p
+                    from: p => p,
+                    to: p => p
                 };
             case Direction.Right:
                 return {
-                    from : p => new Point(mapSize - p.x - 1, p.y),
-                    to : p => new Point(mapSize - p.x - 1, p.y)
+                    from: p => new Point(mapSize - p.x - 1, p.y),
+                    to: p => new Point(mapSize - p.x - 1, p.y)
                 };
             case Direction.Up:
                 return {
-                    from : p => new Point(p.y, p.x),
-                    to : p => new Point(p.y, p.x)
+                    from: p => new Point(p.y, p.x),
+                    to: p => new Point(p.y, p.x)
                 };
             case Direction.Down:
                 return {
-                    from : p => new Point(mapSize - p.y - 1, p.x),
-                    to : p => new Point(p.y, mapSize - p.x - 1)
+                    from: p => new Point(mapSize - p.y - 1, p.x),
+                    to: p => new Point(p.y, mapSize - p.x - 1)
                 };
         }
     }

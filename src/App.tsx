@@ -4,10 +4,10 @@ import Map from './components/Map';
 import Counter from './components/Counter';
 import Modal from './components/Modal';
 import Button from './components/Button';
-import Direction from './utils/Direction'
-import Logic from './utils/Logic/Logic';
-import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
-import {Action} from './utils/Actions';
+import Direction from './models/Direction'
+import Logic from './models/Logic/Logic';
+import LogicRandomize from './models/LogicRandomize/LogicRandomize';
+import {Action} from './models/Actions';
 import { useKeyboardArrows, useRefresh } from './utils/hooks';
 
 /*todo create config file*/
