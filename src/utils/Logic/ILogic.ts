@@ -1,5 +1,5 @@
 import Direction from '../Direction';
-import Action from '../Actions/Action';
+import {Action} from '../Actions';
 import LogicState from './LogicState';
 
 interface ILogic {

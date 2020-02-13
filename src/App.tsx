@@ -7,7 +7,7 @@ import Button from './components/Button';
 import Direction from './utils/Direction'
 import Logic from './utils/Logic/Logic';
 import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
-import Action from './utils/Actions/Action';
+import {Action} from './utils/Actions';
 import { useKeyboardArrows, useRefresh } from './utils/hooks';
 
 /*todo create config file*/

@@ -4,11 +4,7 @@ import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
 import LogicState from './LogicState';
-import Action from '../Actions/Action';
-import AddCellAction from '../Actions/AddCellAction';
-import MoveAction from '../Actions/MoveAction';
-import MergeAction from '../Actions/MergeAction';
-import LoseAction from '../Actions/LoseAction';
+import {Action, AddCellAction, MoveAction, MergeAction, LoseAction} from '../Actions';
 
 class Logic implements ILogic {
 

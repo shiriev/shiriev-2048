@@ -7,10 +7,7 @@ import LogicState from './LogicState';
 import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
-import AddCellAction from '../Actions/AddCellAction';
-import MoveAction from '../Actions/MoveAction';
-import MergeAction from '../Actions/MergeAction';
-import LoseAction from '../Actions/LoseAction';
+import {AddCellAction, MoveAction, MergeAction, LoseAction} from '../Actions';
 
 
 test('Initial Logic returns empty values and empty state', () => {

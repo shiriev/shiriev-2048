@@ -1,13 +1,10 @@
 import React, {useRef, useState, useEffect} from 'react';
 import './Map.css';
-import Action from '../utils/Actions/Action';
+import {Action, AddCellAction, MoveAction, MergeAction} from '../utils/Actions';
 import Block from './Block';
 import Cell from '../utils/Cell';
 import ICloneable from '../utils/ICloneable';
 import Point from '../utils/Point';
-import AddCellAction from '../utils/Actions/AddCellAction';
-import MoveAction from '../utils/Actions/MoveAction';
-import MergeAction from '../utils/Actions/MergeAction';
 
 export interface MapProps {
     currentActions: Action[];
