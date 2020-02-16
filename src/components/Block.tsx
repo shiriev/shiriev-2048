@@ -2,11 +2,9 @@ import React from 'react';
 import './Block.css';
 import Cell from '../models/Cell';
 
-export interface BlockProps {
-    cell: Cell;
-};
-
-function Block(props: BlockProps) {
+export default function Block(props: {
+    cell: Cell
+}) {
     const { value, position } = props.cell;
     const style = {
         "--position-x": position.x,
@@ -16,7 +14,5 @@ function Block(props: BlockProps) {
         <span className={`block__text block__text_digits-count_${value.toString().length}`}>
             {value || null}
         </span>
-    </div>;
-};
-
-export default Block;
+    </div>
+}

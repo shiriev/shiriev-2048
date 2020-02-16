@@ -14,9 +14,9 @@ import { useKeyboardArrows, useRefresh } from './utils/hooks';
 const MapSize = 4;
 const InitialDigitsCount = 2;
 
-function App() {
+export default function App() {
     const [logic, setLogic] = useState<Logic | null>(null);
-    const [isRefresh, refresh] = useRefresh();
+    const [refreshState, refresh] = useRefresh();
     const [currentActions, setCurrentActions] = useState<Action[]>([]);
 
     const restart = useCallback(() => {
@@ -44,7 +44,7 @@ function App() {
     return (logic &&
         <div className='app'>
             <div className='app__map'>
-                {isRefresh && <Map mapSize={logic.mapSize} currentActions={currentActions}/>}
+                {refreshState && <Map mapSize={logic.mapSize} currentActions={currentActions}/>}
             </div>
             <div className='app__title'>
                 <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
@@ -65,5 +65,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

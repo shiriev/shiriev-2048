@@ -6,11 +6,6 @@ import Cell from '../models/Cell';
 import ICloneable from '../models/ICloneable';
 import Point from '../models/Point';
 
-export interface MapProps {
-    currentActions: Action[];
-    mapSize: number;
-};
-
 class CellWithId implements ICloneable {
     cell: Cell;
     id: number;
@@ -25,7 +20,10 @@ class CellWithId implements ICloneable {
     }
 }
 
-function Map(props: MapProps){
+export default function Map(props: {
+    currentActions: Action[];
+    mapSize: number;
+}){
     const cellsRef = useRef<CellWithId[]>([]);
     const idCounterRef = useRef(0);
     const [cells, setCells] = useState<CellWithId[]>([]);
@@ -58,7 +56,5 @@ function Map(props: MapProps){
 
     return <div className='map' style={{'--map-size': props.mapSize} as React.CSSProperties}>
         {cells.map(cellWithId => <Block key={cellWithId.id} cell={cellWithId.cell}/>)}
-    </div>;
-};
-
-export default Map;
+    </div>
+}
