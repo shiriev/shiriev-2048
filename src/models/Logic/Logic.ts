@@ -8,7 +8,7 @@ import { Action, AddCellAction, MoveAction, MergeAction, LoseAction, RestartActi
 
 class Logic implements ILogic {
 
-    loadLogic(logicState: LogicState): void {
+    load(logicState: LogicState): void {
         this._actions = logicState.actions;
         this._cells = logicState.cells;
         this._mapSize = logicState.mapSize;
@@ -16,7 +16,7 @@ class Logic implements ILogic {
         this._stepCount = logicState.stepCount;
     }
 
-    saveLogic(): LogicState {
+    save(): LogicState {
         const logicState = new LogicState();
         logicState.actions = this._actions.map(_ => _.clone());
         logicState.cells = this._cells.map(_ => _.clone());

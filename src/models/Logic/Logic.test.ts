@@ -10,7 +10,7 @@ import Cell from '../Cell';
 import {AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction} from '../Actions';
 
 
-test('Initial Logic returns empty values and empty state', () => {
+test(`Initial ${Logic.name} returns empty values and empty state`, () => {
     const mapSize = 4;
     const expectedMatrix = Array(mapSize).fill([]).map(() => Array(mapSize).fill(0));
     const logic = new Logic(mapSize, mock<ILogicRandomize>());
@@ -21,7 +21,7 @@ test('Initial Logic returns empty values and empty state', () => {
     expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
 
-    const logicState = logic.saveLogic();
+    const logicState = logic.save();
     expect(logicState.mapSize).toEqual(mapSize);
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
@@ -30,14 +30,14 @@ test('Initial Logic returns empty values and empty state', () => {
 });
 
 each([[-5], [0], [1], [null]])
-.test('Logic`s constructor throws error when mapSize < 2 or null (mapSize = %s)', (mapSize) => {
+.test(`${Logic.name}\`s constructor throws error when mapSize < 2 or null (mapSize = %s)`, (mapSize) => {
     const act = () => {  
         const logic = new Logic(mapSize, mock<ILogicRandomize>());
     }
     expect(act).toThrow(RangeError);
 });
 
-test('addValue adds cells on random position', () => {
+test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
     const mapSize = 3;
     const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
@@ -67,7 +67,7 @@ test('addValue adds cells on random position', () => {
     expect(logic.stepCount).toEqual(0);
     expect(logic.matrix).toEqual(expectedMatrix);
 
-    const logicState = logic.saveLogic();
+    const logicState = logic.save();
     expect(logicState.mapSize).toEqual(3);
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
@@ -75,7 +75,7 @@ test('addValue adds cells on random position', () => {
     expect(logicState.actions.length).toEqual(3);
 });
 
-test('loadLogic set state of logic', () => {
+test(`${Logic.prototype.load.name} set state of logic`, () => {
     const mapSize = 3;
     const randomize = mock<ILogicRandomize>();
 
@@ -97,7 +97,7 @@ test('loadLogic set state of logic', () => {
     logicState.mapSize = mapSize;
     logicState.score = 34;
     logicState.stepCount = 6;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     expect(logic.maxValue).toEqual(8);
     expect(logic.score).toEqual(34);
@@ -106,7 +106,7 @@ test('loadLogic set state of logic', () => {
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
-test('move moves cells to left, add value and make actions', () => {
+test(`${Logic.prototype.move.name} moves cells to left, add value and make actions`, () => {
     const mapSize = 4;
     const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
@@ -126,7 +126,7 @@ test('move moves cells to left, add value and make actions', () => {
     logicState.mapSize = mapSize;
     logicState.score = 10;
     logicState.stepCount = 7;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     const expectedMatrix = [
         [4, 0, 0, 0],
@@ -146,13 +146,13 @@ test('move moves cells to left, add value and make actions', () => {
     expect(logic.maxValue).toEqual(32);
     expect(logic.score).toEqual(46);
     expect(actions).toEqual(expectedActions);
-    expect(logic.saveLogic().actions).toEqual(expectedActions);
+    expect(logic.save().actions).toEqual(expectedActions);
     expect(logic.stepCount).toEqual(8);
     expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
-test('move should do nothing if has no way for this direction', () => {
+test(`${Logic.prototype.move.name} should do nothing if has no way for this direction`, () => {
     const mapSize = 4;
     const randomize = mock<ILogicRandomize>();
 
@@ -169,7 +169,7 @@ test('move should do nothing if has no way for this direction', () => {
     logicState.mapSize = mapSize;
     logicState.score = 10;
     logicState.stepCount = 7;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     const actions = logic.move(Direction.Left);
 
@@ -213,7 +213,7 @@ each([
         [0, 2, 0]]
     ],
 ])
-.test('move moves cells on different directions', (
+.test(`${Logic.prototype.move.name} moves cells on different directions`, (
         direction: Direction, 
         matrix: number[][], 
         newCell: Cell, 
@@ -233,7 +233,7 @@ each([
     logicState.mapSize = mapSize;
     logicState.score = 0;
     logicState.stepCount = 0;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     logic.move(direction);
 
@@ -241,7 +241,7 @@ each([
 });
 
 
-test('move shouldn`t return LoseAction if has some ways but doesn`t have free space', () => {
+test(`${Logic.prototype.move.name} shouldn\`t return ${LoseAction.name} if has some ways but doesn\`t have free space`, () => {
     const mapSize = 4;
     const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
@@ -261,7 +261,7 @@ test('move shouldn`t return LoseAction if has some ways but doesn`t have free sp
     logicState.mapSize = mapSize;
     logicState.score = 10;
     logicState.stepCount = 7;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     const actions = logic.move(Direction.Left);
 
@@ -284,7 +284,7 @@ test('move shouldn`t return LoseAction if has some ways but doesn`t have free sp
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
-test('move should return LoseAction if has no way', () => {
+test(`${Logic.prototype.move.name} should return ${LoseAction.name} if has no way`, () => {
     const mapSize = 4;
     const randomize = mock<ILogicRandomize>();
     randomize.getRandomPosition.calledWith(mapSize)
@@ -304,7 +304,7 @@ test('move should return LoseAction if has no way', () => {
     logicState.mapSize = mapSize;
     logicState.score = 10;
     logicState.stepCount = 7;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
     const actions = logic.move(Direction.Left);
 
@@ -329,7 +329,7 @@ test('move should return LoseAction if has no way', () => {
     expect(logic.matrix).toEqual(expectedMatrix);
 });
 
-test('saveLogic should make new object', () => {
+test(`${Logic.prototype.save.name} should make new object`, () => {
     const mapSize = 3;
     const randomize = mock<ILogicRandomize>();
 
@@ -342,11 +342,11 @@ test('saveLogic should make new object', () => {
     logicState.mapSize = mapSize;
     logicState.score = 34;
     logicState.stepCount = 6;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
 
-    const firstCell = logic.saveLogic().cells[0];
+    const firstCell = logic.save().cells[0];
     firstCell.value = 13;
-    const secondCell = logic.saveLogic().cells[0];
+    const secondCell = logic.save().cells[0];
     expect(firstCell).not.toEqual(secondCell);
 });
 
@@ -372,7 +372,7 @@ test(`${Logic.prototype.restart.name} should reset all properties`, () => {
     logicState.mapSize = mapSize;
     logicState.score = 34;
     logicState.stepCount = 6;
-    logic.loadLogic(logicState);
+    logic.load(logicState);
     const actions = logic.restart();
 
     expect(logic.maxValue).toEqual(0);
