@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Map from './components/Map';
 import Counter from './components/Counter';
@@ -8,7 +8,8 @@ import Direction from './models/Direction'
 import Logic from './models/Logic/Logic';
 import LogicRandomize from './models/LogicRandomize/LogicRandomize';
 import {Action} from './models/Actions';
-import { useKeyboardArrows, useRefresh } from './utils/hooks';
+import { useKeyboardArrows } from './utils/hooks';
+import { useCells } from './utils/useCells';
 
 /*todo create config file*/
 const MapSize = 4;
@@ -16,10 +17,10 @@ const InitialDigitsCount = 2;
 
 export default function App() {
     const [logic, setLogic] = useState<Logic | null>(null);
-    const [refreshState, refresh] = useRefresh();
-    const [currentActions, setCurrentActions] = useState<Action[]>([]);
 
-    const restart = useCallback(() => {
+    const {cells, sendActions} = useCells();
+
+    useEffect(() => {
         const newLogic = new Logic(MapSize, new LogicRandomize());
         const actions: Action[] = [];
         for (let i = 0; i < InitialDigitsCount; i++) {
@@ -27,24 +28,29 @@ export default function App() {
             actions.push(...action);
         }
         setLogic(newLogic);
-        setCurrentActions(actions);
-        refresh();
-    }, [refresh]);
+        sendActions(actions);
+    }, [sendActions]);
 
-    useEffect(() => {
-        restart();
-    }, [restart]);
+    const restart = () => {
+        if (logic === null) return;
+        const actions = logic.restart();
+        for (let i = 0; i < InitialDigitsCount; i++) {
+            const action = logic.addCell();
+            actions.push(...action);
+        }
+        sendActions(actions);
+    };
 
     useKeyboardArrows((direction: Direction) => {
         if (logic === null) return;
         const actions = logic.move(direction);
-        setCurrentActions(actions);
+        sendActions(actions);
     });
     
     return (logic &&
         <div className='app'>
             <div className='app__map'>
-                {refreshState && <Map mapSize={logic.mapSize} currentActions={currentActions}/>}
+                <Map mapSize={logic.mapSize} cells={cells}/>
             </div>
             <div className='app__title'>
                 <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
