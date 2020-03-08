@@ -1,12 +1,13 @@
 import Direction from '../Direction';
-import Action from '../Actions/Action';
+import { Action } from '../Actions';
 import LogicState from './LogicState';
 
 interface ILogic {
     move(direction: Direction): Action[];
     addCell(): Action[];
-    loadLogic(logicState: LogicState): void;
-    saveLogic(): LogicState;
+    load(logicState: LogicState): void;
+    save(): LogicState;
+    restart(): Action[];
     readonly mapSize: number;
     readonly matrix: number[][];
     readonly score: number;

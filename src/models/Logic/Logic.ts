@@ -4,15 +4,11 @@ import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
 import LogicState from './LogicState';
-import Action from '../Actions/Action';
-import AddCellAction from '../Actions/AddCellAction';
-import MoveAction from '../Actions/MoveAction';
-import MergeAction from '../Actions/MergeAction';
-import LoseAction from '../Actions/LoseAction';
+import { Action, AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction } from '../Actions';
 
 class Logic implements ILogic {
 
-    loadLogic(logicState: LogicState): void {
+    load(logicState: LogicState): void {
         this._actions = logicState.actions;
         this._cells = logicState.cells;
         this._mapSize = logicState.mapSize;
@@ -20,7 +16,7 @@ class Logic implements ILogic {
         this._stepCount = logicState.stepCount;
     }
 
-    saveLogic(): LogicState {
+    save(): LogicState {
         const logicState = new LogicState();
         logicState.actions = this._actions.map(_ => _.clone());
         logicState.cells = this._cells.map(_ => _.clone());
@@ -28,6 +24,16 @@ class Logic implements ILogic {
         logicState.score = this._score;
         logicState.stepCount = this._stepCount;
         return logicState;
+    }
+
+    restart(): Action[] {
+        this._cells = [];
+        this._score = 0;
+        this._stepCount = 0;
+
+        const restartAction = new RestartAction();
+        this._actions.push(restartAction);
+        return [restartAction];
     }
 
     private canDoMove(): boolean {
@@ -57,23 +63,23 @@ class Logic implements ILogic {
         switch(yDirection) {
             case Direction.Left:
                 return {
-                    from : p => p,
-                    to : p => p
+                    from: p => p,
+                    to: p => p
                 };
             case Direction.Right:
                 return {
-                    from : p => new Point(mapSize - p.x - 1, p.y),
-                    to : p => new Point(mapSize - p.x - 1, p.y)
+                    from: p => new Point(mapSize - p.x - 1, p.y),
+                    to: p => new Point(mapSize - p.x - 1, p.y)
                 };
             case Direction.Up:
                 return {
-                    from : p => new Point(p.y, p.x),
-                    to : p => new Point(p.y, p.x)
+                    from: p => new Point(p.y, p.x),
+                    to: p => new Point(p.y, p.x)
                 };
             case Direction.Down:
                 return {
-                    from : p => new Point(mapSize - p.y - 1, p.x),
-                    to : p => new Point(p.y, mapSize - p.x - 1)
+                    from: p => new Point(mapSize - p.y - 1, p.x),
+                    to: p => new Point(p.y, mapSize - p.x - 1)
                 };
         }
     }

@@ -1,13 +1,9 @@
 import React from 'react';
 import './Button.css'
 
-export interface ButtonProps {
-    onClick: () => void;
-    title: string;
+export default function Button(props: {
+    onClick: () => void
+    title: string
+}) {
+    return <div className='button' onClick={props.onClick}>{props.title}</div>
 }
-
-function Button(props: ButtonProps) {
-    return <div className='button' onClick={props.onClick}>{props.title}</div>;
-}
-
-export default Button;

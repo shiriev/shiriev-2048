@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import Map from './components/Map';
+import Map, { useMapAnimation } from './components/Map';
 import Counter from './components/Counter';
 import Modal from './components/Modal';
 import Button from './components/Button';
-import Direction from './utils/Direction'
-import Logic from './utils/Logic/Logic';
-import LogicRandomize from './utils/LogicRandomize/LogicRandomize';
-import Action from './utils/Actions/Action';
-import { useKeyboardArrows, useRefresh } from './utils/hooks';
+import Direction from './models/Direction'
+import Logic from './models/Logic/Logic';
+import LogicRandomize from './models/LogicRandomize/LogicRandomize';
+import { Action } from './models/Actions';
+import { useKeyboardArrows } from './utils/hooks';
 
 /*todo create config file*/
 const MapSize = 4;
 const InitialDigitsCount = 2;
 
-function App() {
+export default function App() {
     const [logic, setLogic] = useState<Logic | null>(null);
-    const [isRefresh, refresh] = useRefresh();
-    const [currentActions, setCurrentActions] = useState<Action[]>([]);
 
-    const restart = useCallback(() => {
+    const {mapAnimationParams, sendActions} = useMapAnimation();
+
+    useEffect(() => {
         const newLogic = new Logic(MapSize, new LogicRandomize());
         const actions: Action[] = [];
         for (let i = 0; i < InitialDigitsCount; i++) {
@@ -27,24 +27,29 @@ function App() {
             actions.push(...action);
         }
         setLogic(newLogic);
-        setCurrentActions(actions);
-        refresh();
-    }, [refresh]);
+        sendActions(actions);
+    }, [sendActions]);
 
-    useEffect(() => {
-        restart();
-    }, [restart]);
+    const restart = () => {
+        if (logic === null) return;
+        const actions = logic.restart();
+        for (let i = 0; i < InitialDigitsCount; i++) {
+            const action = logic.addCell();
+            actions.push(...action);
+        }
+        sendActions(actions);
+    };
 
     useKeyboardArrows((direction: Direction) => {
         if (logic === null) return;
         const actions = logic.move(direction);
-        setCurrentActions(actions);
+        sendActions(actions);
     });
     
     return (logic &&
         <div className='app'>
             <div className='app__map'>
-                {isRefresh && <Map mapSize={logic.mapSize} currentActions={currentActions}/>}
+                <Map mapSize={logic.mapSize} mapAnimationParams={mapAnimationParams}/>
             </div>
             <div className='app__title'>
                 <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
@@ -65,5 +70,3 @@ function App() {
         </div>
     );
 }
-
-export default App;

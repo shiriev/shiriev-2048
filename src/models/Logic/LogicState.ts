@@ -1,5 +1,5 @@
 import Cell from '../Cell';
-import Action from '../Actions/Action';
+import {Action} from '../Actions';
 
 class LogicState {
     cells: Cell[] = [];
