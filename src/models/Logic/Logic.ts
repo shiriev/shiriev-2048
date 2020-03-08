@@ -4,7 +4,7 @@ import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
 import LogicState from './LogicState';
-import {Action, AddCellAction, MoveAction, MergeAction, LoseAction} from '../Actions';
+import { Action, AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction } from '../Actions';
 
 class Logic implements ILogic {
 
@@ -24,6 +24,16 @@ class Logic implements ILogic {
         logicState.score = this._score;
         logicState.stepCount = this._stepCount;
         return logicState;
+    }
+
+    restart(): Action[] {
+        this._cells = [];
+        this._score = 0;
+        this._stepCount = 0;
+
+        const restartAction = new RestartAction();
+        this._actions.push(restartAction);
+        return [restartAction];
     }
 
     private canDoMove(): boolean {

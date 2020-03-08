@@ -7,7 +7,7 @@ import LogicState from './LogicState';
 import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
-import {AddCellAction, MoveAction, MergeAction, LoseAction} from '../Actions';
+import {AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction} from '../Actions';
 
 
 test('Initial Logic returns empty values and empty state', () => {
@@ -349,6 +349,40 @@ test('saveLogic should make new object', () => {
     const secondCell = logic.saveLogic().cells[0];
     expect(firstCell).not.toEqual(secondCell);
 });
+
+test(`${Logic.prototype.restart.name} should reset all properties`, () => {
+    const mapSize = 3;
+    const randomize = mock<ILogicRandomize>();
+
+    const expectedMatrix = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ];
+
+    const logic = new Logic(mapSize, randomize);
+    const logicState = new LogicState();
+    logicState.actions = [];
+    logicState.cells = [
+        new Cell(2, new Point(0, 0)),
+        new Cell(4, new Point(2, 0)),
+        new Cell(8, new Point(0, 1)),
+        new Cell(2, new Point(1, 2)),
+    ];
+    logicState.mapSize = mapSize;
+    logicState.score = 34;
+    logicState.stepCount = 6;
+    logic.loadLogic(logicState);
+    const actions = logic.restart();
+
+    expect(logic.maxValue).toEqual(0);
+    expect(logic.score).toEqual(0);
+    expect(logic.stepCount).toEqual(0);
+    expect(logic.isEnd).toEqual(false);
+    expect(logic.matrix).toEqual(expectedMatrix);
+    expect(actions).toEqual([new RestartAction()]);
+});
+
 
 const calculateCellsByMatrix = (matrix: number[][]): Cell[] => {
     const cells: Cell[] = [];

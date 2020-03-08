@@ -7,6 +7,7 @@ interface ILogic {
     addCell(): Action[];
     loadLogic(logicState: LogicState): void;
     saveLogic(): LogicState;
+    restart(): Action[];
     readonly mapSize: number;
     readonly matrix: number[][];
     readonly score: number;
