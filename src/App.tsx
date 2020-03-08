@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Map from './components/Map';
+import Map, { useMapAnimation } from './components/Map';
 import Counter from './components/Counter';
 import Modal from './components/Modal';
 import Button from './components/Button';
 import Direction from './models/Direction'
 import Logic from './models/Logic/Logic';
 import LogicRandomize from './models/LogicRandomize/LogicRandomize';
-import {Action} from './models/Actions';
+import { Action } from './models/Actions';
 import { useKeyboardArrows } from './utils/hooks';
-import { useCells } from './utils/useCells';
 
 /*todo create config file*/
 const MapSize = 4;
@@ -18,7 +17,7 @@ const InitialDigitsCount = 2;
 export default function App() {
     const [logic, setLogic] = useState<Logic | null>(null);
 
-    const {cells, sendActions} = useCells();
+    const {mapAnimationParams, sendActions} = useMapAnimation();
 
     useEffect(() => {
         const newLogic = new Logic(MapSize, new LogicRandomize());
@@ -50,7 +49,7 @@ export default function App() {
     return (logic &&
         <div className='app'>
             <div className='app__map'>
-                <Map mapSize={logic.mapSize} cells={cells}/>
+                <Map mapSize={logic.mapSize} mapAnimationParams={mapAnimationParams}/>
             </div>
             <div className='app__title'>
                 <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
