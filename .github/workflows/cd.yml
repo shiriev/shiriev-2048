@@ -18,9 +18,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and deploy
+    - name: npm install
+      run: npm ci
+    - name: npm build and deploy
       run: |
-        npm ci
+        git config --global user.email "rvshiriev@gmail.com"
+        git config --global user.name "shiriev"
+        git remote set-url origin https://$TOKEN@github.com/shiriev/shiriev-2048.git
         npm run deploy
       env:
         CD: true
+        TOKEN: ${{ secrets.TOKEN }}
