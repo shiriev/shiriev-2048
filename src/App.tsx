@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import Map, { useMapAnimation } from './components/Map';
 import Counter from './components/Counter';
@@ -8,7 +8,7 @@ import Direction from './models/Direction'
 import Logic from './models/Logic/Logic';
 import LogicRandomize from './models/LogicRandomize/LogicRandomize';
 import { Action } from './models/Actions';
-import { useKeyboardArrows } from './utils/hooks';
+import { useMovementControl } from './utils/hooks';
 
 /*todo create config file*/
 const MapSize = 4;
@@ -16,6 +16,7 @@ const InitialDigitsCount = 2;
 
 export default function App() {
     const [logic, setLogic] = useState<Logic | null>(null);
+    const mapRef = useRef(null);
 
     const {mapAnimationParams, sendActions} = useMapAnimation();
 
@@ -40,15 +41,15 @@ export default function App() {
         sendActions(actions);
     };
 
-    useKeyboardArrows((direction: Direction) => {
+    useMovementControl((direction: Direction) => {
         if (logic === null) return;
         const actions = logic.move(direction);
         sendActions(actions);
-    });
+    }, mapRef);
     
     return (logic &&
         <div className='app'>
-            <div className='app__map'>
+            <div ref={mapRef} className='app__map'>
                 <Map mapSize={logic.mapSize} mapAnimationParams={mapAnimationParams}/>
             </div>
             <div className='app__title'>
