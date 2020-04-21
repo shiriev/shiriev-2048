@@ -1,0 +1,11 @@
+.title {
+    margin: 0;
+    text-align: center;
+    font-size: 48px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.title a {
+    text-decoration: none;
+}

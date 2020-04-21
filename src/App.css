@@ -12,18 +12,6 @@
     grid-area: title;
 }
 
-.app__title h1 {
-    margin: 0;
-    text-align: center;
-    font-size: 48px;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-}
-
-.app__title h1 a {
-    text-decoration: none;
-}
-
 .app__map {
     grid-area: map;
 }

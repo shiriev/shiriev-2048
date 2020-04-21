@@ -4,7 +4,8 @@ import Map, { useMapAnimation } from './components/Map';
 import Counter from './components/Counter';
 import Modal from './components/Modal';
 import Button from './components/Button';
-import Direction from './models/Direction'
+import Direction from './models/Direction';
+import Title from './components/Title';
 import Logic from './models/Logic/Logic';
 import LogicRandomize from './models/LogicRandomize/LogicRandomize';
 import { Action } from './models/Actions';
@@ -53,7 +54,7 @@ export default function App() {
                 <Map mapSize={logic.mapSize} mapAnimationParams={mapAnimationParams}/>
             </div>
             <div className='app__title'>
-                <h1><a href='https://github.com/shiriev/shiriev-2048/'>2048</a></h1>
+                <Title link='https://github.com/shiriev/shiriev-2048/'>2048</Title>
             </div>
             <div className='app__score'>
                 <Counter title={'очки'} value={logic.score}/>
