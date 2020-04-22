@@ -1,6 +1,6 @@
 .block {
-    width: 100px;
-    height: 100px;
+    width: var(--block-size);
+    height: var(--block-size);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,6 +10,8 @@
     animation-fill-mode: forwards;
     margin-left: calc(var(--block-size) * var(--position-x));
     margin-top: calc(var(--block-size) * var(--position-y));
+    
+    font-size: calc(var(--block-size) * 0.72);
 }
 
 @keyframes show{
@@ -25,19 +27,19 @@
 }
 
 .block__text_digits-count_1 {
-    font-size: 72px;
+    font-size: 1em;
 }
 
 .block__text_digits-count_2 {
-    font-size: 64px;
+    font-size: .88em;
 }
 
 .block__text_digits-count_3 {
-    font-size: 48px;
+    font-size: .66em;
 }
 
 .block__text_digits-count_4 {
-    font-size: 32px;
+    font-size: .44em;
 }
 
 .block_value_0 {
