@@ -68,7 +68,7 @@ export default function Map(props: {
     mapSize: number;
 }){
     const { mapAnimationParams, mapSize } = props;
-    return <div className='map' style={{'--map-size': mapSize} as React.CSSProperties}>
+    return <div className='map' style={{'--map-dimension': mapSize} as React.CSSProperties}>
         {mapAnimationParams.cells.map(cellWithId => <Block key={cellWithId.id} cell={cellWithId.cell}/>)}
     </div>
 }

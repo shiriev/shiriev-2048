@@ -1,11 +1,36 @@
 .app {
     display: grid;
     margin-top: 20px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas: 
-      'title step-count score'
-      'map map map';
     grid-gap: 1em;
+    --map-size: 90vmin;
+}
+
+@media (orientation: portrait) {
+    .app {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 
+            'title step-count score'
+            'map map map';
+    }
+}
+
+@media (orientation: landscape) {
+    .app {
+        grid-template-areas: 
+            'title  map'
+            'step-count map'
+            'score map';
+    }
+}
+
+@media (min-width: 600px) and (min-height: 600px) {
+    .app {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: 
+            'title step-count score'
+            'map map map';
+        --map-size: 500px;
+    }
 }
 
 .app__title {
