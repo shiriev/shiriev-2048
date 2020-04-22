@@ -1,7 +1,7 @@
 import Point from '../Point';
 
 interface ILogicRandomize {
-    getRandomPosition(mapSize: number): Point;
+    getRandomPosition(mapDimension: number): Point;
     getRandomCellValue(): number;
 }
 

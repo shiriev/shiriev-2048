@@ -8,7 +8,7 @@ interface ILogic {
     load(logicState: LogicState): void;
     save(): LogicState;
     restart(): Action[];
-    readonly mapSize: number;
+    readonly mapDimension: number;
     readonly matrix: number[][];
     readonly score: number;
     readonly stepCount: number;

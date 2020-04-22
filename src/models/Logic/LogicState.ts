@@ -6,7 +6,7 @@ class LogicState {
     actions: Action[] = [];
     score: number = 0;
     stepCount: number = 0;
-    mapSize: number = 0;
+    mapDimension: number = 0;
 }
 
 export default LogicState;

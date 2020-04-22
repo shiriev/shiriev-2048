@@ -2,10 +2,10 @@ import ILogicRandomize from './ILogicRandomize';
 import Point from '../Point';
 
 class LogicRandomize implements ILogicRandomize {
-    getRandomPosition(matrixSize: number): Point {
+    getRandomPosition(mapDimension: number): Point {
         return new Point(
-            this.getRandomIntInclusive(0, matrixSize - 1),
-            this.getRandomIntInclusive(0, matrixSize - 1)
+            this.getRandomIntInclusive(0, mapDimension - 1),
+            this.getRandomIntInclusive(0, mapDimension - 1)
         );
     }
     getRandomCellValue(): number {

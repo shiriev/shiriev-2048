@@ -11,7 +11,7 @@ class Logic implements ILogic {
     load(logicState: LogicState): void {
         this._actions = logicState.actions;
         this._cells = logicState.cells;
-        this._mapSize = logicState.mapSize;
+        this._mapDimension = logicState.mapDimension;
         this._score = logicState.score;
         this._stepCount = logicState.stepCount;
     }
@@ -20,7 +20,7 @@ class Logic implements ILogic {
         const logicState = new LogicState();
         logicState.actions = this._actions.map(_ => _.clone());
         logicState.cells = this._cells.map(_ => _.clone());
-        logicState.mapSize = this.mapSize;
+        logicState.mapDimension = this.mapDimension;
         logicState.score = this._score;
         logicState.stepCount = this._stepCount;
         return logicState;
@@ -37,7 +37,7 @@ class Logic implements ILogic {
     }
 
     private canDoMove(): boolean {
-        const hasFreeSpace = this._cells.length < (this.mapSize * this.mapSize);
+        const hasFreeSpace = this._cells.length < (this.mapDimension * this.mapDimension);
         if(hasFreeSpace) {
             return true;
         }
@@ -56,7 +56,7 @@ class Logic implements ILogic {
         return false;
     }
 
-    private getPointTransform(mapSize: number, yDirection: Direction): {
+    private getPointTransform(mapDimension: number, yDirection: Direction): {
         from(p: Point): Point;
         to(p: Point): Point;
     } {
@@ -68,8 +68,8 @@ class Logic implements ILogic {
                 };
             case Direction.Right:
                 return {
-                    from: p => new Point(mapSize - p.x - 1, p.y),
-                    to: p => new Point(mapSize - p.x - 1, p.y)
+                    from: p => new Point(mapDimension - p.x - 1, p.y),
+                    to: p => new Point(mapDimension - p.x - 1, p.y)
                 };
             case Direction.Up:
                 return {
@@ -78,8 +78,8 @@ class Logic implements ILogic {
                 };
             case Direction.Down:
                 return {
-                    from: p => new Point(mapSize - p.y - 1, p.x),
-                    to: p => new Point(p.y, mapSize - p.x - 1)
+                    from: p => new Point(mapDimension - p.y - 1, p.x),
+                    to: p => new Point(p.y, mapDimension - p.x - 1)
                 };
         }
     }
@@ -90,8 +90,8 @@ class Logic implements ILogic {
 
     move(direction: Direction): Action[] {
         const actions: Action[] = [];
-        const { from, to } = this.getPointTransform(this.mapSize, direction);
-        for(let y = 0; y < this.mapSize; y++) {
+        const { from, to } = this.getPointTransform(this.mapDimension, direction);
+        for(let y = 0; y < this.mapDimension; y++) {
             const cellsOnLine = this._cells
                 .filter(c => from(c.position).y === y)
                 .sort((c1, c2) => from(c1.position).x - from(c2.position).x);
@@ -141,7 +141,7 @@ class Logic implements ILogic {
 
     addCell(): Action[] {
         while(true) {
-            const position = this._randomize.getRandomPosition(this.mapSize);
+            const position = this._randomize.getRandomPosition(this.mapDimension);
             if (!this._cells.some(c => c.position.equals(position))) {
                 const value = this._randomize.getRandomCellValue();
                 const newCell = new Cell(value, position);
@@ -154,9 +154,9 @@ class Logic implements ILogic {
     }
 
     get matrix(): number[][] {
-        let matrix: number[][] = Array(this.mapSize)
+        let matrix: number[][] = Array(this.mapDimension)
             .fill([])
-            .map(() => Array(this.mapSize)
+            .map(() => Array(this.mapDimension)
                 .fill(0)
             );
         for(const cell of this._cells) {
@@ -179,8 +179,8 @@ class Logic implements ILogic {
             : 0;
     }
 
-    get mapSize(): number {
-        return this._mapSize;
+    get mapDimension(): number {
+        return this._mapDimension;
     }
 
     get isEnd(): boolean {
@@ -188,10 +188,10 @@ class Logic implements ILogic {
     }
 
 
-    constructor(mapSize: number, randomize: ILogicRandomize) {
-        if (mapSize < 2) throw new RangeError('mapSize shouldn`t be lower than 2');
+    constructor(mapDimension: number, randomize: ILogicRandomize) {
+        if (mapDimension < 2) throw new RangeError('mapDimension shouldn`t be lower than 2');
         if (!randomize) throw new TypeError('randomize shouldn`t be null');
-        this._mapSize = mapSize;
+        this._mapDimension = mapDimension;
         this._randomize = randomize;
     }
 
@@ -200,7 +200,7 @@ class Logic implements ILogic {
     private _actions: Action[] = [];
     private _score: number = 0;
     private _stepCount: number = 0;
-    private _mapSize: number;
+    private _mapDimension: number;
     private readonly _randomize: ILogicRandomize;
 }
 

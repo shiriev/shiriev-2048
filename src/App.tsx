@@ -12,7 +12,7 @@ import { Action } from './models/Actions';
 import { useMovementControl } from './utils/hooks';
 
 /*todo create config file*/
-const MapSize = 4;
+const MapDimension = 4;
 const InitialDigitsCount = 2;
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
     const {mapAnimationParams, sendActions} = useMapAnimation();
 
     useEffect(() => {
-        const newLogic = new Logic(MapSize, new LogicRandomize());
+        const newLogic = new Logic(MapDimension, new LogicRandomize());
         const actions: Action[] = [];
         for (let i = 0; i < InitialDigitsCount; i++) {
             const action = newLogic.addCell();
@@ -51,7 +51,7 @@ export default function App() {
     return (logic &&
         <div className='app'>
             <div ref={mapRef} className='app__map'>
-                <Map mapSize={logic.mapSize} mapAnimationParams={mapAnimationParams}/>
+                <Map mapDimension={logic.mapDimension} mapAnimationParams={mapAnimationParams}/>
             </div>
             <div className='app__title'>
                 <Title link='https://github.com/shiriev/shiriev-2048/'>2048</Title>

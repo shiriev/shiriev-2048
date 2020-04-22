@@ -11,9 +11,9 @@ import {AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction} from 
 
 
 test(`Initial ${Logic.name} returns empty values and empty state`, () => {
-    const mapSize = 4;
-    const expectedMatrix = Array(mapSize).fill([]).map(() => Array(mapSize).fill(0));
-    const logic = new Logic(mapSize, mock<ILogicRandomize>());
+    const mapDimension = 4;
+    const expectedMatrix = Array(mapDimension).fill([]).map(() => Array(mapDimension).fill(0));
+    const logic = new Logic(mapDimension, mock<ILogicRandomize>());
 
     expect(logic.maxValue).toEqual(0);
     expect(logic.score).toEqual(0);
@@ -22,7 +22,7 @@ test(`Initial ${Logic.name} returns empty values and empty state`, () => {
     expect(logic.matrix).toEqual(expectedMatrix);
 
     const logicState = logic.save();
-    expect(logicState.mapSize).toEqual(mapSize);
+    expect(logicState.mapDimension).toEqual(mapDimension);
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
     expect(logicState.cells).toEqual([]);
@@ -30,17 +30,17 @@ test(`Initial ${Logic.name} returns empty values and empty state`, () => {
 });
 
 each([[-5], [0], [1], [null]])
-.test(`${Logic.name}\`s constructor throws error when mapSize < 2 or null (mapSize = %s)`, (mapSize) => {
+.test(`${Logic.name}\`s constructor throws error when mapDimension < 2 or null (mapDimension = %s)`, (mapDimension) => {
     const act = () => {  
-        const logic = new Logic(mapSize, mock<ILogicRandomize>());
+        new Logic(mapDimension, mock<ILogicRandomize>());
     }
     expect(act).toThrow(RangeError);
 });
 
 test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
-    const mapSize = 3;
+    const mapDimension = 3;
     const randomize = mock<ILogicRandomize>();
-    randomize.getRandomPosition.calledWith(mapSize)
+    randomize.getRandomPosition.calledWith(mapDimension)
         .mockReturnValueOnce(new Point(0, 0))
         .mockReturnValueOnce(new Point(1, 2))
         .mockReturnValueOnce(new Point(0, 0))
@@ -57,7 +57,7 @@ test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
         [0, 2, 0],
     ];
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     expect(logic.addCell()).toEqual([new AddCellAction(new Cell(2, new Point(0, 0)))]);
     expect(logic.addCell()).toEqual([new AddCellAction(new Cell(2, new Point(1, 2)))]);
     expect(logic.addCell()).toEqual([new AddCellAction(new Cell(4, new Point(2, 0)))]);
@@ -68,7 +68,7 @@ test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
     expect(logic.matrix).toEqual(expectedMatrix);
 
     const logicState = logic.save();
-    expect(logicState.mapSize).toEqual(3);
+    expect(logicState.mapDimension).toEqual(3);
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
     expect(logicState.cells.length).toEqual(3);
@@ -76,7 +76,7 @@ test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
 });
 
 test(`${Logic.prototype.load.name} set state of logic`, () => {
-    const mapSize = 3;
+    const mapDimension = 3;
     const randomize = mock<ILogicRandomize>();
 
     const expectedMatrix = [
@@ -85,7 +85,7 @@ test(`${Logic.prototype.load.name} set state of logic`, () => {
         [0, 2, 0],
     ];
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.actions = [];
     logicState.cells = [
@@ -94,7 +94,7 @@ test(`${Logic.prototype.load.name} set state of logic`, () => {
         new Cell(8, new Point(0, 1)),
         new Cell(2, new Point(1, 2)),
     ];
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 34;
     logicState.stepCount = 6;
     logic.load(logicState);
@@ -107,15 +107,15 @@ test(`${Logic.prototype.load.name} set state of logic`, () => {
 });
 
 test(`${Logic.prototype.move.name} moves cells to left, add value and make actions`, () => {
-    const mapSize = 4;
+    const mapDimension = 4;
     const randomize = mock<ILogicRandomize>();
-    randomize.getRandomPosition.calledWith(mapSize)
+    randomize.getRandomPosition.calledWith(mapDimension)
         .mockReturnValueOnce(new Point(1, 2));
         
     randomize.getRandomCellValue.calledWith()
         .mockReturnValueOnce(2);
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.cells = calculateCellsByMatrix([
         [0, 2, 2, 0],
@@ -123,7 +123,7 @@ test(`${Logic.prototype.move.name} moves cells to left, add value and make actio
         [0, 16, 0, 16],
         [0, 0, 0, 0],
     ]);
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 10;
     logicState.stepCount = 7;
     logic.load(logicState);
@@ -153,7 +153,7 @@ test(`${Logic.prototype.move.name} moves cells to left, add value and make actio
 });
 
 test(`${Logic.prototype.move.name} should do nothing if has no way for this direction`, () => {
-    const mapSize = 4;
+    const mapDimension = 4;
     const randomize = mock<ILogicRandomize>();
 
     const matrix = [
@@ -163,10 +163,10 @@ test(`${Logic.prototype.move.name} should do nothing if has no way for this dire
         [0, 0, 0, 0],
     ];
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.cells = calculateCellsByMatrix(matrix);
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 10;
     logicState.stepCount = 7;
     logic.load(logicState);
@@ -219,18 +219,18 @@ each([
         newCell: Cell, 
         expectedMatrix: number[][]
     ) => {
-    const mapSize = matrix.length;
+    const mapDimension = matrix.length;
     const randomize = mock<ILogicRandomize>();
-    randomize.getRandomPosition.calledWith(mapSize)
+    randomize.getRandomPosition.calledWith(mapDimension)
         .mockReturnValueOnce(newCell.position.clone());
         
     randomize.getRandomCellValue.calledWith()
         .mockReturnValueOnce(newCell.value);
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.cells = calculateCellsByMatrix(matrix);
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 0;
     logicState.stepCount = 0;
     logic.load(logicState);
@@ -242,15 +242,15 @@ each([
 
 
 test(`${Logic.prototype.move.name} shouldn\`t return ${LoseAction.name} if has some ways but doesn\`t have free space`, () => {
-    const mapSize = 4;
+    const mapDimension = 4;
     const randomize = mock<ILogicRandomize>();
-    randomize.getRandomPosition.calledWith(mapSize)
+    randomize.getRandomPosition.calledWith(mapDimension)
         .mockReturnValueOnce(new Point(3, 2));
     randomize.getRandomCellValue.calledWith()
         .mockReturnValueOnce(2);
 
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.cells = calculateCellsByMatrix([
         [2, 4, 2, 4],
@@ -258,7 +258,7 @@ test(`${Logic.prototype.move.name} shouldn\`t return ${LoseAction.name} if has s
         [2, 16, 0, 8],
         [16, 4, 2, 4],
     ]);
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 10;
     logicState.stepCount = 7;
     logic.load(logicState);
@@ -285,15 +285,15 @@ test(`${Logic.prototype.move.name} shouldn\`t return ${LoseAction.name} if has s
 });
 
 test(`${Logic.prototype.move.name} should return ${LoseAction.name} if has no way`, () => {
-    const mapSize = 4;
+    const mapDimension = 4;
     const randomize = mock<ILogicRandomize>();
-    randomize.getRandomPosition.calledWith(mapSize)
+    randomize.getRandomPosition.calledWith(mapDimension)
         .mockReturnValueOnce(new Point(3, 2));
     randomize.getRandomCellValue.calledWith()
         .mockReturnValueOnce(2);
 
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.cells = calculateCellsByMatrix([
         [2, 4, 2, 4],
@@ -301,7 +301,7 @@ test(`${Logic.prototype.move.name} should return ${LoseAction.name} if has no wa
         [2, 16, 0, 8],
         [16, 4, 2, 4],
     ]);
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 10;
     logicState.stepCount = 7;
     logic.load(logicState);
@@ -330,16 +330,16 @@ test(`${Logic.prototype.move.name} should return ${LoseAction.name} if has no wa
 });
 
 test(`${Logic.prototype.save.name} should make new object`, () => {
-    const mapSize = 3;
+    const mapDimension = 3;
     const randomize = mock<ILogicRandomize>();
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.actions = [];
     logicState.cells = [
         new Cell(2, new Point(0, 0)),
     ];
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 34;
     logicState.stepCount = 6;
     logic.load(logicState);
@@ -351,7 +351,7 @@ test(`${Logic.prototype.save.name} should make new object`, () => {
 });
 
 test(`${Logic.prototype.restart.name} should reset all properties`, () => {
-    const mapSize = 3;
+    const mapDimension = 3;
     const randomize = mock<ILogicRandomize>();
 
     const expectedMatrix = [
@@ -360,7 +360,7 @@ test(`${Logic.prototype.restart.name} should reset all properties`, () => {
         [0, 0, 0],
     ];
 
-    const logic = new Logic(mapSize, randomize);
+    const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
     logicState.actions = [];
     logicState.cells = [
@@ -369,7 +369,7 @@ test(`${Logic.prototype.restart.name} should reset all properties`, () => {
         new Cell(8, new Point(0, 1)),
         new Cell(2, new Point(1, 2)),
     ];
-    logicState.mapSize = mapSize;
+    logicState.mapDimension = mapDimension;
     logicState.score = 34;
     logicState.stepCount = 6;
     logic.load(logicState);
