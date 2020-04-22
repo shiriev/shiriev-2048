@@ -1,6 +1,8 @@
 # shiriev-2048
 2048 game. Pet project for learning React.
 
+[Github Page Link](https://shiriev.github.io/shiriev-2048/).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
