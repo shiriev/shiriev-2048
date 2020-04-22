@@ -5,7 +5,7 @@ import LogicState from './LogicState';
 interface ILogic {
     move(direction: Direction): Action[];
     addCell(): Action[];
-    load(logicState: LogicState): void;
+    load(logicState: LogicState): Action[];
     save(): LogicState;
     restart(): Action[];
     readonly mapDimension: number;

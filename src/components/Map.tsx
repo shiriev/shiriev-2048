@@ -4,7 +4,7 @@ import Block from './Block';
 import ICloneable from '../models/ICloneable';
 import Cell from '../models/Cell';
 import Point from '../models/Point';
-import { Action, AddCellAction, MoveAction, MergeAction, RestartAction } from '../models/Actions';
+import { Action, AddCellAction, MoveAction, MergeAction, RestartAction, LoadAction } from '../models/Actions';
 
 class AnimatedCell implements ICloneable {
     cell: Cell;
@@ -36,7 +36,7 @@ export function useMapAnimation(): {mapAnimationParams: MapAnimationParams, send
     }, []);
 
     const sendActions = useCallback((currentActions: Action[]) => {
-        const newCells = [...cellsRef.current];
+        let newCells = [...cellsRef.current];
         for (const action of currentActions) {
             if( action instanceof AddCellAction) {
                 newCells.push(new AnimatedCell(action.cell.clone(), idCounterRef.current++));
@@ -50,6 +50,8 @@ export function useMapAnimation(): {mapAnimationParams: MapAnimationParams, send
                 newCells.splice(newCells.indexOf(cell1), 1);
             } else if (action instanceof RestartAction) {
                 newCells.length = 0;
+            } else if (action instanceof LoadAction) {
+                newCells = action.cells.map(cell => new AnimatedCell(cell.clone(), idCounterRef.current++));
             }
         }
         cellsRef.current = newCells;

@@ -7,7 +7,7 @@ import LogicState from './LogicState';
 import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
-import {AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction} from '../Actions';
+import {AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction, LoadAction} from '../Actions';
 
 
 test(`Initial ${Logic.name} returns empty values and empty state`, () => {
@@ -26,7 +26,6 @@ test(`Initial ${Logic.name} returns empty values and empty state`, () => {
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
     expect(logicState.cells).toEqual([]);
-    expect(logicState.actions).toEqual([]);
 });
 
 each([[-5], [0], [1], [null]])
@@ -72,7 +71,6 @@ test(`${Logic.prototype.addCell.name} adds cells on random position`, () => {
     expect(logicState.score).toEqual(0);
     expect(logicState.stepCount).toEqual(0);
     expect(logicState.cells.length).toEqual(3);
-    expect(logicState.actions.length).toEqual(3);
 });
 
 test(`${Logic.prototype.load.name} set state of logic`, () => {
@@ -87,7 +85,6 @@ test(`${Logic.prototype.load.name} set state of logic`, () => {
 
     const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
-    logicState.actions = [];
     logicState.cells = [
         new Cell(2, new Point(0, 0)),
         new Cell(4, new Point(2, 0)),
@@ -97,13 +94,14 @@ test(`${Logic.prototype.load.name} set state of logic`, () => {
     logicState.mapDimension = mapDimension;
     logicState.score = 34;
     logicState.stepCount = 6;
-    logic.load(logicState);
+    const actions = logic.load(logicState);
 
     expect(logic.maxValue).toEqual(8);
     expect(logic.score).toEqual(34);
     expect(logic.stepCount).toEqual(6);
     expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
+    expect(actions).toEqual([new LoadAction(logicState.cells)]);
 });
 
 test(`${Logic.prototype.move.name} moves cells to left, add value and make actions`, () => {
@@ -141,12 +139,11 @@ test(`${Logic.prototype.move.name} moves cells to left, add value and make actio
         new AddCellAction(new Cell(2, new Point(1, 2)))
     ];
 
-    const actions = logic.move(Direction.Left);
+    const moveAction = logic.move(Direction.Left);
 
     expect(logic.maxValue).toEqual(32);
     expect(logic.score).toEqual(46);
-    expect(actions).toEqual(expectedActions);
-    expect(logic.save().actions).toEqual(expectedActions);
+    expect(moveAction).toEqual(expectedActions);
     expect(logic.stepCount).toEqual(8);
     expect(logic.isEnd).toEqual(false);
     expect(logic.matrix).toEqual(expectedMatrix);
@@ -335,7 +332,6 @@ test(`${Logic.prototype.save.name} should make new object`, () => {
 
     const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
-    logicState.actions = [];
     logicState.cells = [
         new Cell(2, new Point(0, 0)),
     ];
@@ -362,7 +358,6 @@ test(`${Logic.prototype.restart.name} should reset all properties`, () => {
 
     const logic = new Logic(mapDimension, randomize);
     const logicState = new LogicState();
-    logicState.actions = [];
     logicState.cells = [
         new Cell(2, new Point(0, 0)),
         new Cell(4, new Point(2, 0)),
