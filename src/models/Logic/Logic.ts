@@ -4,21 +4,21 @@ import Direction from '../Direction';
 import Point from '../Point';
 import Cell from '../Cell';
 import LogicState from './LogicState';
-import { Action, AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction } from '../Actions';
+import { Action, AddCellAction, MoveAction, MergeAction, LoseAction, RestartAction, LoadAction } from '../Actions';
 
 class Logic implements ILogic {
 
-    load(logicState: LogicState): void {
-        this._actions = logicState.actions;
+    load(logicState: LogicState): Action[] {
+        this._actions = [];
         this._cells = logicState.cells;
         this._mapDimension = logicState.mapDimension;
         this._score = logicState.score;
         this._stepCount = logicState.stepCount;
+        return [new LoadAction(logicState.cells)];
     }
 
     save(): LogicState {
         const logicState = new LogicState();
-        logicState.actions = this._actions.map(_ => _.clone());
         logicState.cells = this._cells.map(_ => _.clone());
         logicState.mapDimension = this.mapDimension;
         logicState.score = this._score;

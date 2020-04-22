@@ -4,3 +4,4 @@ export {default as LoseAction} from './LoseAction';
 export {default as MergeAction} from './MergeAction';
 export {default as MoveAction} from './MoveAction';
 export {default as RestartAction} from './RestartAction';
+export {default as LoadAction} from './LoadAction';

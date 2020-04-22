@@ -75,3 +75,17 @@ export const useSwipeOnElement = (callback: (direction: Direction) => void, elem
         }
     }, [callback, elementRef]);
 }
+
+export const useClosingControl = (callback: () => void): void => {
+    useEffect(() => {
+        const onUnload = function(e: Event): any {
+            callback();
+            return false;
+        };
+
+        window.addEventListener("unload", onUnload);
+        return () => {
+            window.removeEventListener("unload", onUnload, false);
+        }
+    }, [callback]);
+}
