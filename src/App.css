@@ -4,6 +4,8 @@
     grid-gap: 1em;
     --map-size: 90vmin;
     align-items: center;
+
+    font-family: 'Courier New', Courier, monospace;
 }
 
 @media (orientation: portrait) {
@@ -11,19 +13,21 @@
         grid-gap: .5em;
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas: 
-            'title score step-count'
-            'restart-button score step-count'
-            'map map map';
+            'title          score    step-count'
+            'restart-button score    step-count'
+            'map            map      map'
+            'language       language language';
     }
 }
 
 @media (orientation: landscape) {
     .app {
         grid-template-areas: 
-            'title map'
+            'title          map'
             'restart-button map'
-            'score map'
-            'step-count map';
+            'score          map'
+            'step-count     map'
+            'language       map';
     }
 }
 
@@ -31,8 +35,9 @@
     .app {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-areas: 
-            'title step-count score restart-button'
-            'map map map map';
+            'title    score    step-count restart-button'
+            'map      map      map        map'
+            'language language language   language';
         --map-size: 500px;
     }
 }
@@ -55,4 +60,23 @@
 
 .app__restart-button {
     grid-area: restart-button;
+}
+
+.app__language-bar {
+    grid-area: language;
+}
+
+.app__language-link {
+    color: brown;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.app__language-link:hover {
+    color: crimson;
+}
+
+@media (hover: none) {
+    .app__language-link:hover { color: brown; }
 }

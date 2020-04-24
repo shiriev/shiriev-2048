@@ -6,45 +6,59 @@ import Counter from './components/Counter';
 import Modal from './components/Modal';
 import Button from './components/Button';
 import Title from './components/Title';
+import Toolbar, { Tool } from './components/Toolbar';
 import Direction from './models/Direction';
 import Logic from './models/Logic/Logic';
 import LogicRandomize from './models/LogicRandomize/LogicRandomize';
 import { Action } from './models/Actions';
-import { useMovementControl, useClosingControl } from './utils/hooks';
 import LogicState from './models/Logic/LogicState';
 import Cell from './models/Cell';
 import Point from './models/Point';
+import { useMovementControl, useClosingControl } from './utils/hooks';
+import localeStrings, { language } from './utils/localeStrings';
 
 /*todo create config file*/
 const MapDimension = 4;
 const InitialDigitsCount = 2;
 
-const useLogicStateCookies = () => {
-    const CookieName = 'LogicState';
-    const [cookies, setCookie] = useCookies([CookieName]);
+type AppCookie = {
+    language: language,
+    logicState: LogicState
+}
 
-    const logicStateCookie = cookies[CookieName] || null;
-    if (logicStateCookie) {
-        logicStateCookie.cells = logicStateCookie.cells.map((cell: any) => 
+const useAppCookies = (): [
+    AppCookie | null,
+    (value: AppCookie) => void
+] => {
+    const CookieName = 'AppCookie';
+    const [cookies, setCookie] = useCookies(['AppCookie']);
+
+    const appCookie: AppCookie | null = cookies[CookieName] || null;
+    if (appCookie) {
+        appCookie.logicState.cells = appCookie.logicState.cells.map((cell: any) => 
             new Cell(cell.value, new Point(cell.position.x, cell.position.y)));
     }
 
-    const setLogicStateCookie = (logicState: LogicState): void => setCookie(CookieName, logicState);
+    const setAppCookie = (appState: AppCookie): void => setCookie(CookieName, appState);
 
-    return [logicStateCookie, setLogicStateCookie];
+    return [appCookie, setAppCookie];
 }
 
 export default function App() {
+    const [appCookie, setAppCookie] = useAppCookies();
+
     const [logic, setLogic] = useState<Logic | null>(null);
     const mapRef = useRef(null);
 
     const {mapAnimationParams, sendActions} = useMapAnimation();
-    const [logicStateCookie, setLogicStateCookie] = useLogicStateCookies();
+    const [localization, setLocalization] = useState<language>('en');
+    const strings = localeStrings[localization];
 
     useEffect(() => {
-        if (logicStateCookie) {
+        setLocalization(appCookie ? appCookie.language : 'en');
+        if (appCookie) {
             const newLogic = new Logic(MapDimension, new LogicRandomize());
-            const actions = newLogic.load(logicStateCookie);
+            const actions = newLogic.load(appCookie.logicState);
             setLogic(newLogic);
             sendActions(actions);
         } else {
@@ -57,7 +71,7 @@ export default function App() {
             setLogic(newLogic);
             sendActions(actions);
         }
-    }, [sendActions, logicStateCookie]);
+    }, [sendActions, appCookie]);
 
     const restart = () => {
         if (logic === null) return;
@@ -76,7 +90,10 @@ export default function App() {
     }, mapRef);
 
     useClosingControl(() => {
-        logic && setLogicStateCookie(logic.save());
+        logic && setAppCookie({
+            language: localization,
+            logicState: logic.save(),
+        });
     });
     
     return (logic &&
@@ -88,20 +105,26 @@ export default function App() {
                 <Title link='https://github.com/shiriev/shiriev-2048/'>2048</Title>
             </div>
             <div className='app__score'>
-                <Counter title={'очки'} value={logic.score}/>
+                <Counter title={strings.score} value={logic.score}/>
             </div>
             <div className='app__step-count'>
-                <Counter title={'ходы'} value={logic.stepCount}/>
+                <Counter title={strings.stepCount} value={logic.stepCount}/>
             </div>
             <div className='app__restart-button'>
-                <Button title={'рестарт'} onClick={restart}/>
+                <Button title={strings.restart} onClick={restart}/>
+            </div>
+            <div className='app__language-bar'>
+                <Toolbar>
+                    <Tool><div className='app__language-link' onClick={() => setLocalization('en')}>en</div></Tool>
+                    <Tool><div className='app__language-link' onClick={() => setLocalization('ru')}>ru</div></Tool>
+                </Toolbar>
             </div>
             {
                 logic.isEnd && 
-                <Modal title='Игра окончена'>
-                        <p>Хотите сыграть ещё?</p>
-                        <Button title='рестарт' onClick={restart}/>
-                </Modal>
+                    <Modal title={strings.gameOver}>
+                        <p>{strings.doYouWantToTryAgain}</p>
+                        <Button title={strings.restart} onClick={restart}/>
+                    </Modal>
             }
         </div>
     );

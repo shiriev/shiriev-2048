@@ -21,9 +21,9 @@
 }
 
 .block__text {
-    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     color: white;
+    user-select: none;
 }
 
 .block__text_digits-count_1 {

@@ -4,7 +4,6 @@
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
-    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     white-space: nowrap;
     text-align: center;
@@ -12,4 +11,8 @@
 
 .button:hover {
     background-color: crimson;
+}
+
+@media (hover: none) {
+    .button:hover { background-color: brown; }
 }
