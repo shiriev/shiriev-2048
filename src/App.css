@@ -4,6 +4,8 @@
     grid-gap: 1em;
     --map-size: 90vmin;
     align-items: center;
+    
+    font-family: 'Courier New', Courier, monospace;
 }
 
 @media (orientation: portrait) {
