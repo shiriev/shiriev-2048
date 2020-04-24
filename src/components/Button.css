@@ -12,3 +12,7 @@
 .button:hover {
     background-color: crimson;
 }
+
+@media (hover: none) {
+    .button:hover { background-color: brown; }
+}
